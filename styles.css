@@ -1,0 +1,140 @@
+/*
+Layout with flex/grid.
+Simple dashboard design.
+Maybe color-coded expenses (green = income, red = expense).
+
+color palettes: 
+#EADEDA
+#998888
+#BFB8AD
+#823329
+#8A3033
+
+#E6EED6
+#DDE2C6
+#BBC5AA
+#A72608
+#090C02
+
+#4C2E05
+#7A8450
+#AEBD93
+#BEE7B8
+#95969D
+
+#848C8E
+#435058
+#DCF763
+#BFB7B6
+#F1F2EE
+
+#F7F9F9
+#BED8D4
+#78D5D7
+#63D2FF
+#2081C3
+
+#32292F
+#99E1D9
+#F0F7F4
+#70ABAF
+#705D56
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* overall style */
+:root {
+    --background-color: #F7F9F9;
+    --secondary-color: #F0F7F4;
+    --savings-accent-color: #7A8450;
+    --expense-accent-color: #8A3033;
+    --text-color: #32292F;
+    --border-color: #BED8D4
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: "Poppins";
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* heading/menu style */
+.heading {
+    text-align: center;
+    /* background-color: var(--savings-accent-color); */
+    /* color: var(--background-color); */
+    margin: 0;
+    padding: 15px;
+    border-radius: 0 0 15px 15px;
+}
+
+#userDetails {
+    display: flex;
+    justify-content: center;
+    gap: 15em;
+}
+
+/* cards style */
+.container {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 2fr;
+    height: auto;
+}
+
+#form, #expenses, #savings {
+    background-color: var(--secondary-color);
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+#form:hover, #expenses:hover, #savings:hover {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+h2 {
+    margin: 0;
+    padding: 20px;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.1em;
+}
+
+input, select {
+    width: 70%;
+    line-height: 10px;
+    margin: 5px;
+    padding: 8px;
+    /* border-style: none; */
+    border-radius: 8px;
+    /* text-align: center; */
+    border-color: var(--border-color);
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    width: 20%;
+    border-color: var(--border-color);
+    border-radius: 15px;
+    background-color: var(--background-color);
+}
+
+/* expenses style */
+/* li {
+    list-style: none;
+    background-color: var(--secondary-color);
+    margin: 0px 0px 100px, 0px;
+    height: 10vh;
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+} */
