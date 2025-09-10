@@ -41,6 +41,7 @@ const monthlyExpenseName = document.getElementById("monthlyExpenseName");
 const monthlyExpenseAmount = document.getElementById("monthlyExpenseAmount");
 const monthlyExpenseBtn = document.getElementById("monthlyExpenseBtn");
 const monthlyExpensesList = document.getElementById("monthlyExpensesList");
+const totalExpenses = document.getElementById("totalExpenses");
 
 let expenses = JSON.parse(localStorage.getItem("expenses")) || []; // parse the expenses localStorage key
 renderExpenses();
@@ -48,10 +49,14 @@ renderExpenses();
 // render expenses
 function renderExpenses() {
     monthlyExpensesList.innerHTML = "" // clear before re-rendering
+    let expensesSum = 0;
     expenses.forEach(exp => {
         const li = document.createElement("li");
         li.textContent = `${exp.name} - $${exp.amount} (${exp.date})`;
+        expensesSum += parseInt(exp.amount);
         monthlyExpensesList.appendChild(li);
+        totalExpenses.textContent = "Total Expenses: $" + expensesSum.toString();
+
     })
 }
 
@@ -62,7 +67,8 @@ monthlyExpenseBtn.addEventListener("click", () => {
     let expense = {
         name: monthlyExpenseName.value,
         amount: monthlyExpenseAmount.value,
-        date: today.toDateString()
+        date: today.toDateString(),
+        time: today.toTimeString(),
     }
 
     expenses.push(expense);
@@ -70,7 +76,26 @@ monthlyExpenseBtn.addEventListener("click", () => {
     renderExpenses();
 })
 
-// daily expenses
+/* 
+remaining balance
+*/
+const remainingBalance = document.getElementById("remainingBalance");
 
+function calculateRemainingBalance() {
+    let totalExpenses = 0;
+    expenses.forEach(exp => {
+        totalExpenses += parseInt(exp.amount);
+    })
+    let diff = parseInt(currentIncome) - totalExpenses
+    remainingBalance.textContent = "Safe to spend: $" + diff;
+}
 
-// spendings
+calculateRemainingBalance();
+
+/*
+reset all button
+*/
+
+resetAllBtn.addEventListener("click", () => {
+    localStorage.clear();
+})

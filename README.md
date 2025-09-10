@@ -3,10 +3,9 @@
 ## General Features
 - [x] Allow user to input monthly income
     - [x] Display Monthly income
-- [ ] Allow user to input monthly and daily expense
-    - [ ] Display totalExpenses = monthlyExpense + dailyExpense
-    - [ ] Display monthlyExpense at the bottom of the Expense card as a list format (inside)
-    - [ ] Display dailyExpense at the bottom of the Expense card as a list format (outside)
+- [x] Allow user to input monthly and daily expense
+    - [x] Display totalExpenses
+    - [x] Display remainingBalance
 - [ ]  Allow user to input savings
     - [ ] Display savings in the Savings card
 - [ ] Get safeToSpend ( monthlyIncome - (monthlyExpense + dailyExpense + savingsContributions) )

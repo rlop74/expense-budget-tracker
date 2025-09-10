@@ -17,10 +17,9 @@ Lists/tables to display expenses.
         <h1 class="heading">Expense and Savings Tracker</h1>
     </header>
     <main>
-        <nav id="userDetails">
+        <nav id="accountDetails">
             <p id="monthlyIncome">Monthly Income: </p>
-            <p id="totalExpenses">Total Expenses: </p>
-            <p id="totalSavings">Total Savings: </p>
+            <p id="remainingBalance">Safe to spend: </p>
         </nav>
         <div class="container">
             <section id="form">
@@ -34,7 +33,7 @@ Lists/tables to display expenses.
                 </form>
                 <br />
                 <form action="">
-                    <label for="monthlyExpense">Add monthly expense</label>
+                    <label for="monthlyExpense">Add Expense</label>
                     <br />
                     <input type="text" id="monthlyExpenseName" class="textBox" placeholder="Expense name" required />
                     <br />
@@ -56,7 +55,7 @@ Lists/tables to display expenses.
                     <button type="submit" id="monthlyExpenseBtn">Add</button>
                 </form>
                 <br />
-                <form action="">
+                <!-- <form action="">
                     <label for="todaysExpense">Add today's expense</label>
                     <br />
                     <input type="text" id="todaysExpenseName" class="textBox" placeholder="Expense name" required />
@@ -76,26 +75,22 @@ Lists/tables to display expenses.
                         <option value="Shopping">Shopping</option>
                     </select>
                     <br />
-                    <button type="submit" id="todaysExpenseBtn">Add</button>
+                    <button type="submit" id="todaysExpenseBtn">Add</button> -->
                 </form>
+                <button type="" id="resetAllBtn">RESET ALL</button>
             </section>
 
             <section id="expenses">
                 <h2>Expenses</h2>
                 <!-- chart -->
+                <p id="totalExpenses">Total Expenses: </p>
             </section>
 
-            <section id="savings">
-                <h2>Savings</h2>
+            <section id="breakdown">
+                <h2>Breakdown</h2>
                 <!-- chart -->
-            </section>
-        </div>
-        <div class="container">
-            <section id="space"></section>
-            <section id="">
                 <ul id="monthlyExpensesList"></ul>
             </section>
-            <section id=""></section>
         </div>
     </main>
     <script src="script.js"></script>

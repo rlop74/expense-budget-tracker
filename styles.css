@@ -49,6 +49,7 @@ color palettes:
     --secondary-color: #F0F7F4;
     --savings-accent-color: #7A8450;
     --expense-accent-color: #8A3033;
+    --expense-background-color: rgb(253, 206, 206);
     --text-color: #32292F;
     --border-color: #BED8D4
 }
@@ -64,14 +65,12 @@ body {
 /* heading/menu style */
 .heading {
     text-align: center;
-    /* background-color: var(--savings-accent-color); */
-    /* color: var(--background-color); */
     margin: 0;
     padding: 15px;
     border-radius: 0 0 15px 15px;
 }
 
-#userDetails {
+#accountDetails {
     display: flex;
     justify-content: center;
     gap: 15em;
@@ -80,11 +79,15 @@ body {
 /* cards style */
 .container {
     display: grid;
-    grid-template-columns: 1.5fr 2fr 2fr;
     height: auto;
+    grid-template-columns: 1.5fr 2fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "form expenses expenses"
+        "form . ."
 }
 
-#form, #expenses, #savings {
+#form, #expenses {
     background-color: var(--secondary-color);
     margin: 10px;
     border-radius: 20px;
@@ -92,20 +95,31 @@ body {
     text-align: center;
 }
 
-#form:hover, #expenses:hover, #savings:hover {
+#form:hover, #expenses:hover {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
 }
 
 h2 {
-    margin: 0;
-    padding: 20px;
+    margin: 10px;
+    padding: 0px;
 }
 
 #form {
+    grid-area: form;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     font-size: 1.1em;
+}
+
+#expenses {
+    grid-area: expenses;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#totalExpenses {
+    justify-self: self-end;
 }
 
 input, select {
@@ -113,9 +127,7 @@ input, select {
     line-height: 10px;
     margin: 5px;
     padding: 8px;
-    /* border-style: none; */
     border-radius: 8px;
-    /* text-align: center; */
     border-color: var(--border-color);
 }
 
@@ -129,12 +141,19 @@ button {
 }
 
 /* expenses style */
-/* li {
+li {
     list-style: none;
-    background-color: var(--secondary-color);
-    margin: 0px 0px 100px, 0px;
+    background-color: var(--expense-background-color);
     height: 10vh;
     border-radius: 20px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
-} */
+    font-size:larger;
+    color: var(--expense-accent-color);
+}
+
+#resetAllBtn {
+    border-color: var(--expense-accent-color);
+    color: var(--expense-accent-color);
+    margin: 20px auto;
+}
