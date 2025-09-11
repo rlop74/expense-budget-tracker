@@ -22,22 +22,22 @@ Lists/tables to display expenses.
             <p id="remainingBalance">Safe to spend: </p>
         </nav>
         <div class="container">
-            <section id="form">
+            <section id="form" class="card">
                 <form action="">
                     <label for="newIncome">Monthly Net Income</label>
                     <br />
-                    <input type="number" id="newIncome" class="textBox" placeholder="Monthly Net Income" />
+                    <input type="number" id="newIncome" class="textBox" step="0.01" placeholder="Monthly Net Income" />
                     <br />
                     <button type="submit" id="updateIncomeBtn">Update</button>
                     <button type="button" id="resetIncomeBtn">Reset</button>
                 </form>
                 <br />
                 <form action="">
-                    <label for="monthlyExpense">Add Expense</label>
+                    <label for="expense">Add Expense</label>
                     <br />
-                    <input type="text" id="monthlyExpenseName" class="textBox" placeholder="Expense name" required />
+                    <input type="text" id="expenseName" class="textBox" placeholder="Expense name" required />
                     <br />
-                    <input type="number" id="monthlyExpenseAmount" class="textBox" placeholder="$$$" required />
+                    <input type="number" id="expenseAmount" class="textBox" step="0.01" placeholder="$$$" required />
                     <br />
                     <select name="expenseCategory" class="expenseCategory">
                         <option value="Automotive">Automotive</option>
@@ -52,9 +52,16 @@ Lists/tables to display expenses.
                         <option value="Shopping">Shopping</option>
                     </select>
                     <br />
-                    <button type="submit" id="monthlyExpenseBtn">Add</button>
+                    <button type="submit" id="addExpenseBtn">Add</button>
                 </form>
                 <br />
+                <form action="">
+                    <label for="expense">Add Savings</label>
+                    <br />
+                    <input type="number" step="0.01" id="savingsAmount" class="textBox" placeholder="$$$" required />
+                    <br />
+                    <button type="submit" id="addSavingsBtn">Add</button>
+                </form>
                 <!-- <form action="">
                     <label for="todaysExpense">Add today's expense</label>
                     <br />
@@ -80,17 +87,28 @@ Lists/tables to display expenses.
                 <button type="" id="resetAllBtn">RESET ALL</button>
             </section>
 
-            <section id="expenses">
+            <section id="expenses" class="card">
                 <h2>Expenses</h2>
                 <!-- chart -->
-                <p id="totalExpenses">Total Expenses: </p>
+                <p id="totalExpenses">You'll see your total expenses here</p>
             </section>
 
-            <section id="breakdown">
-                <h2>Breakdown</h2>
-                <!-- chart -->
-                <ul id="monthlyExpensesList"></ul>
+                <section id="expenseBreakdown">
+                    <h2>Expenses Breakdown</h2>
+                    <ul id="expensesList"></ul>
+                </section>
+
+            <section id="savings" class="card">
+                <h2>Savings</h2>
+                <p id="totalSavings">You'll see your total savings here</p>
             </section>
+
+                <section id="savingsBreakdown">
+                    <h2>Savings Breakdown</h2>
+                    <ul id="savingsList"></ul>
+                </section>
+
+
         </div>
     </main>
     <script src="script.js"></script>

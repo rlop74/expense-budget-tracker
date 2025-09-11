@@ -3,37 +3,39 @@
 ## General Features
 - [x] Allow user to input monthly income
     - [x] Display Monthly income
-- [x] Allow user to input monthly and daily expense
+- [x] Allow user to input all expenses
     - [x] Display totalExpenses
-    - [x] Display remainingBalance
-- [ ]  Allow user to input savings
-    - [ ] Display savings in the Savings card
-- [ ] Get safeToSpend ( monthlyIncome - (monthlyExpense + dailyExpense + savingsContributions) )
-    - [ ] Display safeToSpend (remaining $$$)
-- [ ] Notify user via email to put expenses, if any, at the end of day (Future Enhancement)
+- [x]  Allow user to input savings
+    - [x] Display savings in the Savings card
+- [x] Get safeToSpend ( totalIncome - (totalExpenses + totalSavings) )
+    - [x] Display safeToSpend (remaining $$$)
 - [ ] Expense/Budget sort by date or amount.
 - [ ] Currency Conversion Feature
 
 ## Budget Goal / Savings Tracker Features
+- [x] Add contributions
+- [x] Display total savings
+- [ ] Add, edit, delete expenses
 - [ ] Set a savings goal (e.g., $1,000)
-- [ ] Add contributions
-- [ ] Visual progress bar toward the goal
 👉 Small but motivating daily use.
 
 ## Expense Tracker Features
 - [ ] Add, edit, delete expenses
 - [ ] Categorize (food, transport, bills, leisure, etc).
-- [ ] Persist data in localStorage
-- [ ] Show totals + maybe a pie chart (bonus challenge with a JS chart library later)
+- [x] Persist data in localStorage
+- [x] Show totals
 👉 Helps you with budgeting day-to-day.
 
 ## Future updates
 - [ ] Calendar (Synced / Manual for reminders)
 - [ ] Connect to banks account
+- [ ] Notify user via email to put expenses, if any, at the end of day (Future Enhancement)
 ### Basic Charts (optional, later)
-- [ ] Pie chart of spending by category.
-- [ ] Line chart of spending over time.
-- [ ] (Can be done with just HTML canvas or a small chart library if you want later).
+- [ ] Expenses/Savings/Remaining chart (donut/pie)
+- [ ] Expenses chart of spending by category (donut/pie)
+- [ ] Chart of spending over time (Bar/Line)
+- [ ] Savings Visual progress bar toward the goal (Bar/Line)
+Can use chart.js
 
 # Learning Goals
 - [ ] Form inputs (HTML practice)
