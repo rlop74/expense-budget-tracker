@@ -15,12 +15,12 @@
 ## Budget Goal / Savings Tracker Features
 - [x] Add contributions
 - [x] Display total savings
-- [ ] Add, edit, delete expenses
+- [x] Add, edit, delete savings
 - [ ] Set a savings goal (e.g., $1,000)
 👉 Small but motivating daily use.
 
 ## Expense Tracker Features
-- [ ] Add, edit, delete expenses
+- [x] Add, edit, delete expenses
 - [ ] Categorize (food, transport, bills, leisure, etc).
 - [x] Persist data in localStorage
 - [x] Show totals

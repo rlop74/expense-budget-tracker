@@ -40,8 +40,9 @@ resetIncomeBtn.addEventListener("click", () => {
 const resetAllBtn = document.getElementById("resetAllBtn");
 
 resetAllBtn.addEventListener("click", () => {
-    // clear local storage
-    localStorage.clear();
+    // clear local storage except monthly income
+    localStorage.removeItem("expenses");
+    localStorage.removeItem("savings")
 
     // clear in-memory data
     expenses = [];
@@ -51,7 +52,7 @@ resetAllBtn.addEventListener("click", () => {
     renderExpenses();
     renderSavings();
     calculateRemainingBalance(); // refresh balance display
-    monthlyIncome.textContent = "Monthly Income: $0";
+    // monthlyIncome.textContent = "Monthly Income: $0";
 })
 
 
@@ -78,6 +79,17 @@ function renderExpenses() {
         li.innerHTML = `${exp.name} - $${exp.amount}<br/><small>${exp.date}</small>`;
         expensesSum += parseFloat(exp.amount);
         expensesList.appendChild(li);
+
+        // add function to remove on click
+        li.addEventListener("click", () => {
+            expensesList.removeChild(li);
+            const index = expenses.indexOf(exp);
+            expenses.splice(index, 1);
+            localStorage.setItem("expenses", JSON.stringify(expenses));
+            calculateRemainingBalance();
+            renderExpenses();
+            renderSavings();
+        })
     })
     totalExpenses.textContent = "Total Expenses: $" + expensesSum.toString();
 }
@@ -119,6 +131,16 @@ function renderSavings() {
         const li = document.createElement("li");
         li.innerHTML = `$${contribution.amount}<br><small>${contribution.date}</small>`;
         savingsList.appendChild(li);
+
+        li.addEventListener("click", () => {
+            savingsList.removeChild(li);
+            const index = savings.indexOf(contribution);
+            savings.splice(index, 1);
+            localStorage.setItem("savings", JSON.stringify(savings));
+            calculateRemainingBalance();
+            renderExpenses();
+            renderSavings();
+        })
     })
     totalSavings.textContent = `Total Savings: $${savingsSum.toString()}`;
 }
