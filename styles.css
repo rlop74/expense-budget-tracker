@@ -85,7 +85,8 @@ body {
     grid-template-rows: auto 1fr;
     grid-template-areas:
         "form expenses savings"
-        "form expenseBreakdown ."
+        "form expenseBreakdown savingsBreakdown";
+    align-items: start;
 }
 
 .card {
@@ -109,6 +110,15 @@ body {
     background-color: var(--secondary-color);
 }
 
+/* chart */
+#mainChart {
+    /* grid-area: mainChart; */
+    display: block;
+    margin: 20px auto;
+    max-width: 800px;   /* adjust for layout */
+    height: 500px;      /* fixed or responsive */
+}
+
 /* expenses card style */
 
 #expenses {
@@ -126,6 +136,10 @@ body {
 
 #expenseBreakdown {
     grid-area: expenseBreakdown;
+}
+
+#savingsBreakdown {
+    grid-area: savingsBreakdown;
 }
 
 ul {
@@ -160,6 +174,9 @@ li:hover {
 
 #savings {
     grid-area: savings;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 

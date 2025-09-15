@@ -31,7 +31,7 @@
 - [ ] Connect to banks account
 - [ ] Notify user via email to put expenses, if any, at the end of day (Future Enhancement)
 ### Basic Charts (optional, later)
-- [ ] Expenses/Savings/Remaining chart (donut/pie)
+- [x] Expenses/Savings/Remaining chart (donut/pie)
 - [ ] Expenses chart of spending by category (donut/pie)
 - [ ] Chart of spending over time (Bar/Line)
 - [ ] Savings Visual progress bar toward the goal (Bar/Line)

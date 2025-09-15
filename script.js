@@ -24,14 +24,14 @@ updateIncomeBtn.addEventListener("click", () => {
     const newIncomeValue = newIncome.value;
     localStorage.setItem("currentIncome", newIncomeValue);
     monthlyIncome.textContent = "Monthly Income: $" + newIncomeValue;
-    calculateRemainingBalance();
+    updateUI();
 });
 
 // reset monthly income
 resetIncomeBtn.addEventListener("click", () => {
     monthlyIncome.textContent = "Monthly Income: $0";
     localStorage.removeItem("currentIncome");
-    calculateRemainingBalance();
+    updateUI();
 })
 
 /*********************************
@@ -49,12 +49,8 @@ resetAllBtn.addEventListener("click", () => {
     savings = [];
 
     // clear lists
-    renderExpenses();
-    renderSavings();
-    calculateRemainingBalance(); // refresh balance display
-    // monthlyIncome.textContent = "Monthly Income: $0";
+    updateUI();
 })
-
 
 /********************************* 
             expenses
@@ -86,12 +82,11 @@ function renderExpenses() {
             const index = expenses.indexOf(exp);
             expenses.splice(index, 1);
             localStorage.setItem("expenses", JSON.stringify(expenses));
-            calculateRemainingBalance();
-            renderExpenses();
-            renderSavings();
+            updateUI();
         })
     })
     totalExpenses.textContent = "Total Expenses: $" + expensesSum.toString();
+    return expensesSum;
 }
 
 // add expenses
@@ -107,8 +102,7 @@ addExpenseBtn.addEventListener("click", () => {
 
     expenses.push(expense);
     localStorage.setItem("expenses", JSON.stringify(expenses));
-    renderExpenses();
-    calculateRemainingBalance();
+    updateUI();
 })
 
 /*********************************
@@ -137,12 +131,11 @@ function renderSavings() {
             const index = savings.indexOf(contribution);
             savings.splice(index, 1);
             localStorage.setItem("savings", JSON.stringify(savings));
-            calculateRemainingBalance();
-            renderExpenses();
-            renderSavings();
+            updateUI();
         })
     })
     totalSavings.textContent = `Total Savings: $${savingsSum.toString()}`;
+    return savingsSum;
 }
 
 addSavingsBtn.addEventListener("click", () => {
@@ -153,8 +146,7 @@ addSavingsBtn.addEventListener("click", () => {
     }
     savings.push(contribution);
     localStorage.setItem("savings", JSON.stringify(savings));
-    renderSavings();
-    calculateRemainingBalance();
+    updateUI();
 })
 
 
@@ -181,6 +173,46 @@ function calculateRemainingBalance() {
     } else {
         remainingBalance.textContent = "Safe to spend: $" + diff;
     }
+    return diff;
 }
 
 calculateRemainingBalance();
+
+/********************************* 
+            chart
+**********************************/
+
+const mainChart = document.getElementById('mainChart');
+let chartInstance;
+
+function renderChart(expensesSum, safeToSpend, savingsSum) {
+    if (chartInstance) {
+        chartInstance.destroy();
+    }
+
+    chartInstance = new Chart(mainChart, {
+    type: 'doughnut',
+    data: {
+        labels: ['Expense', 'Safe to spend', 'Savings'],
+        datasets: [{
+        label: 'Amount',
+        data: [expensesSum, safeToSpend, savingsSum],
+        borderWidth: 1,
+        backgroundColor: [
+            '#8A3033',
+            '#2081C3',
+            '#7A8450'
+        ]
+        }]
+    },
+    });
+}
+
+function updateUI() {
+    const savingsSum = renderSavings();
+    const expensesSum = renderExpenses();
+    const safeToSpend = calculateRemainingBalance();
+    renderChart(expensesSum, safeToSpend, savingsSum);
+}
+
+updateUI();
