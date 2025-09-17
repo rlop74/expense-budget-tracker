@@ -22,6 +22,11 @@ monthlyIncome.textContent = "Monthly Income: $" + currentIncome;
 // update new monthly income
 updateIncomeBtn.addEventListener("click", () => {
     const newIncomeValue = newIncome.value;
+    if (!newIncomeValue) {
+        alert("Please fill out required fields");
+        return;
+    }
+
     localStorage.setItem("currentIncome", newIncomeValue);
     monthlyIncome.textContent = "Monthly Income: $" + newIncomeValue;
     updateUI();
@@ -58,6 +63,7 @@ resetAllBtn.addEventListener("click", () => {
 
 const expenseName = document.getElementById("expenseName");
 const expenseAmount = document.getElementById("expenseAmount");
+const expenseCategory = document.getElementById("expenseCategory");
 const addExpenseBtn = document.getElementById("addExpenseBtn");
 const expensesList = document.getElementById("expensesList");
 const totalExpenses = document.getElementById("totalExpenses");
@@ -72,7 +78,7 @@ function renderExpenses() {
     let expensesSum = 0;
     expenses.forEach(exp => {
         const li = document.createElement("li");
-        li.innerHTML = `${exp.name} - $${exp.amount}<br/><small>${exp.date}</small>`;
+        li.innerHTML = `${exp.name} - $${exp.amount}<br/><small>${exp.date}</small><br /><small>${exp.category}</small>`;
         expensesSum += parseFloat(exp.amount);
         expensesList.appendChild(li);
 
@@ -91,11 +97,17 @@ function renderExpenses() {
 
 // add expenses
 addExpenseBtn.addEventListener("click", () => {
+    if (!!expenseName.value || !!expenseAmount.value || !!expenseCategory) {
+        alert("Please fill out required fields");
+        return;
+    }
+    
     const today = new Date();
     // create expense object
     let expense = {
         name: expenseName.value,
         amount: expenseAmount.value,
+        category: expenseCategory.value,
         date: today.toDateString(),
         time: today.toTimeString(),
     }
@@ -139,6 +151,10 @@ function renderSavings() {
 }
 
 addSavingsBtn.addEventListener("click", () => {
+    if (!!savingsAmount) {
+        alert("Please fill out required fields");
+        return;
+    }
     const today = new Date();
     let contribution = {
         amount: savingsAmount.value,

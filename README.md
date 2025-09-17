@@ -11,6 +11,7 @@
     - [x] Display safeToSpend (remaining $$$)
 - [ ] Expense/Budget sort by date or amount.
 - [ ] Currency Conversion Feature
+- [ ] Upload receipt and store on item list
 
 ## Budget Goal / Savings Tracker Features
 - [x] Add contributions
@@ -21,7 +22,7 @@
 
 ## Expense Tracker Features
 - [x] Add, edit, delete expenses
-- [ ] Categorize (food, transport, bills, leisure, etc).
+- [x] Categorize (food, transport, bills, leisure, etc).
 - [x] Persist data in localStorage
 - [x] Show totals
 👉 Helps you with budgeting day-to-day.
@@ -38,9 +39,9 @@
 Can use chart.js
 
 # Learning Goals
-- [ ] Form inputs (HTML practice)
+- [x] Form inputs (HTML practice)
 - [ ] Styling/layout + responsive design (CSS practice)
-- [ ] Interactivity + persistence (JavaScript logic + DOM manipulation + localStorage persistence)
-- [ ] Versioning + workflow + deployment (GitHub practice)
+- [x] Interactivity + persistence (JavaScript logic + DOM manipulation + localStorage persistence)
+- [x] Versioning + workflow + deployment (GitHub practice)
 - [ ] Extra depth (progress bar, goal setting, filtering transactions).
 - [ ] Async JS for currency conversion using external API -- https://www.exchangerate-api.com/ or https://openexchangerates.org/

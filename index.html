@@ -42,7 +42,9 @@ Lists/tables to display expenses.
                     <br />
                     <input type="number" id="expenseAmount" class="textBox" step="0.01" placeholder="$$$" required />
                     <br />
-                    <select name="expenseCategory" class="expenseCategory">
+                    <label for="expenseCategory"><small>Expense Category:</small></label>
+                    <select name="expenseCategory" id="expenseCategory" required>
+                        <option value="">Please Select...</option>
                         <option value="Automotive">Automotive</option>
                         <option value="Bills & Utilities">Bills & Utilities</option>
                         <option value="Education">Education</option>
