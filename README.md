@@ -10,7 +10,6 @@
 - [x] Get safeToSpend ( totalIncome - (totalExpenses + totalSavings) )
     - [x] Display safeToSpend (remaining $$$)
 - [ ] Expense/Budget sort by date or amount.
-- [ ] Currency Conversion Feature
 - [ ] Upload receipt and store on item list
 
 ## Budget Goal / Savings Tracker Features
@@ -28,20 +27,11 @@
 👉 Helps you with budgeting day-to-day.
 
 ## Future updates
-- [ ] Calendar (Synced / Manual for reminders)
-- [ ] Connect to banks account
-- [ ] Notify user via email to put expenses, if any, at the end of day (Future Enhancement)
+- [ ] Contact Form -> https://www.npmjs.com/package/emailjs
+- [ ] Responsive Design
+- [ ] Currency Conversion -> https://www.exchangerate-api.com/ or https://openexchangerates.org/
 ### Basic Charts (optional, later)
 - [x] Expenses/Savings/Remaining chart (donut/pie)
 - [ ] Expenses chart of spending by category (donut/pie)
-- [ ] Chart of spending over time (Bar/Line)
 - [ ] Savings Visual progress bar toward the goal (Bar/Line)
 Can use chart.js
-
-# Learning Goals
-- [x] Form inputs (HTML practice)
-- [ ] Styling/layout + responsive design (CSS practice)
-- [x] Interactivity + persistence (JavaScript logic + DOM manipulation + localStorage persistence)
-- [x] Versioning + workflow + deployment (GitHub practice)
-- [ ] Extra depth (progress bar, goal setting, filtering transactions).
-- [ ] Async JS for currency conversion using external API -- https://www.exchangerate-api.com/ or https://openexchangerates.org/

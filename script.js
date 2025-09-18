@@ -97,7 +97,7 @@ function renderExpenses() {
 
 // add expenses
 addExpenseBtn.addEventListener("click", () => {
-    if (!!expenseName.value || !!expenseAmount.value || !!expenseCategory) {
+    if (!expenseName.value || !expenseAmount.value || !expenseCategory.value) {
         alert("Please fill out required fields");
         return;
     }
@@ -151,7 +151,7 @@ function renderSavings() {
 }
 
 addSavingsBtn.addEventListener("click", () => {
-    if (!!savingsAmount) {
+    if (!savingsAmount.value) {
         alert("Please fill out required fields");
         return;
     }
