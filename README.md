@@ -28,7 +28,7 @@
 
 ## Future updates
 - [ ] Contact Form -> https://www.npmjs.com/package/emailjs
-- [ ] Responsive Design
+- [x] Responsive Design
 - [ ] Currency Conversion -> https://www.exchangerate-api.com/ or https://openexchangerates.org/
 ### Basic Charts (optional, later)
 - [x] Expenses/Savings/Remaining chart (donut/pie)

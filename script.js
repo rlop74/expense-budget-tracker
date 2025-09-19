@@ -135,7 +135,7 @@ function renderSavings() {
         savingsSum += parseFloat(contribution.amount);
 
         const li = document.createElement("li");
-        li.innerHTML = `$${contribution.amount}<br><small>${contribution.date}</small>`;
+        li.innerHTML = `$${contribution.amount}<br><small>${contribution.date}</small><br> -`;
         savingsList.appendChild(li);
 
         li.addEventListener("click", () => {
