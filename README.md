@@ -9,8 +9,6 @@
     - [x] Display savings in the Savings card
 - [x] Get safeToSpend ( totalIncome - (totalExpenses + totalSavings) )
     - [x] Display safeToSpend (remaining $$$)
-- [ ] Expense/Budget sort by date or amount.
-- [ ] Upload receipt and store on item list
 
 ## Budget Goal / Savings Tracker Features
 - [x] Add contributions
@@ -27,8 +25,10 @@
 👉 Helps you with budgeting day-to-day.
 
 ## Future updates
-- [ ] Contact Form -> https://www.npmjs.com/package/emailjs
+- [ ] Update page design/layout
+- [x] NavBar and Contact page (page navigation)
 - [x] Responsive Design
+- [ ] Contact Form -> https://www.npmjs.com/package/emailjs
 - [ ] Currency Conversion -> https://www.exchangerate-api.com/ or https://openexchangerates.org/
 ### Basic Charts (optional, later)
 - [x] Expenses/Savings/Remaining chart (donut/pie)

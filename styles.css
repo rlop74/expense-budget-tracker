@@ -52,7 +52,8 @@ color palettes:
     --expense-accent-color: #8A3033;
     --expense-background-color: rgb(253, 206, 206);
     --text-color: #32292F;
-    --border-color: #BED8D4
+    --border-color: #BED8D4;
+    --bar-color: #173753;
 }
 
 body {
@@ -63,12 +64,31 @@ body {
     margin: 0;
 }
 
-/* heading/menu style */
+/********************************************
+            heading/nav style 
+*********************************************/
 .heading {
     text-align: center;
     margin: 0;
     padding: 15px;
     border-radius: 0 0 15px 15px;
+}
+
+#menuBar {
+    display: flex;
+    justify-content: center;
+    background-color: var(--bar-color);
+    color: var(--background-color);
+    padding: 1%;
+    gap: 50px;
+}
+
+#menuBar a {
+    color: var(--background-color);
+}
+
+#menuBar a:hover {
+    cursor: pointer;
 }
 
 #accountDetails {
@@ -77,15 +97,18 @@ body {
     gap: 15em;
 }
 
-/* cards style */
+/********************************************
+                cards style
+ ********************************************/
 .container {
     display: grid;
     height: auto;
     grid-template-columns: 1.5fr 2fr 2fr;
-    grid-template-rows: 0.5fr auto;
+    grid-template-rows: 0.5fr 1fr;
     grid-template-areas:
         "form expenses savings"
         "form expenseBreakdown savingsBreakdown";
+        /* "footer footer footer"; */
     align-items: start;
 }
 
@@ -127,7 +150,9 @@ label, input, select, button {
     grid-area: savingsBreakdown;
 }
 
-/* chart */
+/********************************************
+                    chart
+*********************************************/
 #mainChart {
     /* grid-area: mainChart; */
     display: block;
@@ -168,7 +193,9 @@ li:hover {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9)
 }
 
-/* savings card style */
+/********************************************
+            savings card style 
+*********************************************/
 
 #savings {
     grid-area: savings;
@@ -202,6 +229,36 @@ button {
     color: var(--expense-accent-color);
     margin: 20px auto;
 }
+
+/********************************************
+                   footer
+*********************************************/
+footer {
+    text-align: center;
+    background-color: var(--bar-color);
+    color: var(--background-color);
+    padding: 10px;
+    margin: 0;
+}
+
+footer a {
+    /* text-decoration: none; */
+    color: var(--background-color);
+}
+
+footer a:hover {
+    cursor: pointer;
+}
+
+/********************************************
+            contact page
+********************************************/
+
+
+
+/********************************************
+            responsive design
+********************************************/
 
 @media (max-width: 950px) {
     #accountDetails {
