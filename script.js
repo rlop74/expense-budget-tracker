@@ -114,6 +114,9 @@ addExpenseBtn.addEventListener("click", () => {
 
     expenses.push(expense);
     localStorage.setItem("expenses", JSON.stringify(expenses));
+    expenseName.value = "";
+    expenseAmount.value = "";
+    expenseCategory.value = "";
     updateUI();
 })
 
@@ -162,6 +165,7 @@ addSavingsBtn.addEventListener("click", () => {
     }
     savings.push(contribution);
     localStorage.setItem("savings", JSON.stringify(savings));
+    savingsAmount.value = "";
     updateUI();
 })
 

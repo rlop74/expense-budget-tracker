@@ -15,6 +15,7 @@
 - [x] Display total savings
 - [x] Add, edit, delete savings
 - [ ] Set a savings goal (e.g., $1,000)
+
 👉 Small but motivating daily use.
 
 ## Expense Tracker Features
@@ -22,10 +23,11 @@
 - [x] Categorize (food, transport, bills, leisure, etc).
 - [x] Persist data in localStorage
 - [x] Show totals
+
 👉 Helps you with budgeting day-to-day.
 
 ## Future updates
-- [ ] Update page design/layout
+- [x] Update page design/layout
 - [x] NavBar and Contact page (page navigation)
 - [x] Responsive Design
 - [ ] Contact Form -> https://www.npmjs.com/package/emailjs
