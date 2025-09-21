@@ -91,6 +91,7 @@ function renderExpenses() {
             updateUI();
         })
     })
+    expensesSum = Math.round(expensesSum * 100) / 100; // round off decimal place to 2
     totalExpenses.textContent = "Total Expenses: $" + expensesSum.toString();
     return expensesSum;
 }
@@ -149,6 +150,7 @@ function renderSavings() {
             updateUI();
         })
     })
+    savingsSum = Math.round(savingsSum * 100) / 100; // round off decimal place to 2
     totalSavings.textContent = `Total Savings: $${savingsSum.toString()}`;
     return savingsSum;
 }
@@ -187,6 +189,7 @@ function calculateRemainingBalance() {
         savingsSum += parseFloat(contribution.amount);
     })
     let diff = parseFloat(currentIncome) - (expensesSum + savingsSum);
+    diff = Math.round(diff * 100) / 100; // round off decimal place to 2
 
     if (Number.isNaN(diff)) {
         remainingBalance.textContent = "Safe to spend: ";
