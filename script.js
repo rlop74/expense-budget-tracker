@@ -231,7 +231,41 @@ function renderChart(expensesSum, safeToSpend, savingsSum) {
     });
 }
 
+/********************************* 
+        currency converter
+**********************************/
+
+async function fetchCurrencies() {
+    try {
+        const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+        const data = await response.json();
+        const rates = data.rates
+        return rates
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
+}
+
+const currencyRates = document.getElementById("currencyRates");
+
+function listCurrencies() {
+    const currencies = fetchCurrencies();
+    currencies.then((data) => {
+        for (currency in data) {
+            const option = document.createElement("option")
+            option.setAttribute("value", currency);
+            option.textContent = `${currency}: ${data[currency]}`;
+            currencyRates.appendChild(option);
+        }
+    });
+}
+
+/********************************* 
+            update UI
+**********************************/
+
 function updateUI() {
+    listCurrencies();
     const savingsSum = renderSavings();
     const expensesSum = renderExpenses();
     const safeToSpend = calculateRemainingBalance();

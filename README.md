@@ -31,7 +31,7 @@
 - [x] NavBar and Contact page (page navigation)
 - [x] Responsive Design
 - [ ] Contact Form -> https://www.npmjs.com/package/emailjs
-- [ ] Currency Conversion -> https://www.exchangerate-api.com/ or https://openexchangerates.org/
+- [ ] Currency Conversion -> https://www.exchangerate-api.com/ or https://openexchangerates.org/, went with https://api.exchangerate-api.com/v4/latest/USD
 ### Basic Charts (optional, later)
 - [x] Expenses/Savings/Remaining chart (donut/pie)
 - [ ] Expenses chart of spending by category (donut/pie)

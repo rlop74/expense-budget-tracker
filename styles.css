@@ -92,6 +92,10 @@ body {
     cursor: pointer;
 }
 
+#currencyRates {
+    width: fit-content;
+}
+
 /********************************************
               grid and card style
  ********************************************/
