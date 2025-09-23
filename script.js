@@ -14,7 +14,7 @@ const newIncome = document.getElementById("newIncome");
 const updateIncomeBtn = document.getElementById("updateIncomeBtn");
 const resetIncomeBtn = document.getElementById("resetIncomeBtn");
 let monthlyIncome = document.getElementById("monthlyIncome");
-const currentIncome = localStorage.getItem("currentIncome") || 0; // localStorage for monthlyIncome
+let currentIncome = localStorage.getItem("currentIncome") || 0; // localStorage for monthlyIncome
 
 // display new monthly income if currentIncome != null, otherwise display current innerHTML
 monthlyIncome.textContent = "Monthly Income: $" + currentIncome;
@@ -247,6 +247,7 @@ async function fetchCurrencies() {
 }
 
 const currencyRates = document.getElementById("currencyRates");
+let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
 
 function listCurrencies() {
     const currencies = fetchCurrencies();
