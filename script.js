@@ -17,7 +17,7 @@ let monthlyIncome = document.getElementById("monthlyIncome");
 let currentIncome = localStorage.getItem("currentIncome") || 0; // localStorage for monthlyIncome
 
 // display new monthly income if currentIncome != null, otherwise display current innerHTML
-monthlyIncome.textContent = "Monthly Income: $" + currentIncome;
+monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
 
 // update new monthly income
 updateIncomeBtn.addEventListener("click", () => {
@@ -28,13 +28,14 @@ updateIncomeBtn.addEventListener("click", () => {
     }
 
     localStorage.setItem("currentIncome", newIncomeValue);
-    monthlyIncome.textContent = "Monthly Income: $" + newIncomeValue;
+    monthlyIncome.textContent = `Monthly Income: ${parseFloat(newIncomeValue).toLocaleString()} USD`;
+    newIncome.value = "";
     updateUI();
 });
 
 // reset monthly income
 resetIncomeBtn.addEventListener("click", () => {
-    monthlyIncome.textContent = "Monthly Income: $0";
+    monthlyIncome.textContent = "Monthly Income: 0 USD";
     localStorage.removeItem("currentIncome");
     updateUI();
 })
@@ -92,7 +93,7 @@ function renderExpenses() {
         })
     })
     expensesSum = Math.round(expensesSum * 100) / 100; // round off decimal place to 2
-    totalExpenses.textContent = "Total Expenses: $" + expensesSum.toString();
+    totalExpenses.textContent = `Total Expenses: ${expensesSum} USD`;
     return expensesSum;
 }
 
@@ -258,8 +259,35 @@ function listCurrencies() {
             option.textContent = `${currency}: ${data[currency]}`;
             currencyRates.appendChild(option);
         }
+    currencyRates.value = "USD"; // reset value everytime function is called
     });
 }
+
+currencyRates.addEventListener("change", async () => {
+    const rates = await fetchCurrencies();
+    const selectedRate = currencyRates.value;
+    const currencyRate = rates[selectedRate];
+
+    // monthly income card update
+    const currentIncome = localStorage.getItem("currentIncome") || 0;
+    const updatedIncome = currencyRate * parseFloat(currentIncome);
+    monthlyIncome.textContent = `Monthly Income: ${updatedIncome.toLocaleString()} ${selectedRate}`;
+
+    // expenses card update
+    const currentExpenses = renderExpenses();
+    const updatedExpenses = parseFloat(currentExpenses) * currencyRate;
+    totalExpenses.textContent = `Total Expenses: ${updatedExpenses.toLocaleString()} ${selectedRate}`;
+
+    // savings card update
+    const currentSavings = renderSavings();
+    const updatedSavings = parseFloat(currentSavings) * currencyRate;
+    totalSavings.textContent = `Total Savings: ${updatedSavings.toLocaleString()} ${selectedRate}`
+
+    // safeToSpend card update
+    const diff = calculateRemainingBalance();
+    const safeToSpend = diff * currencyRate;
+    remainingBalance.textContent = `Safe to spend: ${safeToSpend.toLocaleString()} ${selectedRate}`;
+})
 
 /********************************* 
             update UI
