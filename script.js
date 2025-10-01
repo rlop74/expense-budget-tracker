@@ -33,6 +33,10 @@ updateIncomeBtn.addEventListener("click", () => {
     updateUI();
 });
 
+function updateIncome() {
+    monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
+}
+
 // reset monthly income
 resetIncomeBtn.addEventListener("click", () => {
     monthlyIncome.textContent = "Monthly Income: 0 USD";
@@ -152,7 +156,7 @@ function renderSavings() {
         })
     })
     savingsSum = Math.round(savingsSum * 100) / 100; // round off decimal place to 2
-    totalSavings.textContent = `Total Savings: $${savingsSum.toString()}`;
+    totalSavings.textContent = `Total Savings: ${savingsSum.toLocaleString()} USD`;
     return savingsSum;
 }
 
@@ -195,7 +199,7 @@ function calculateRemainingBalance() {
     if (Number.isNaN(diff)) {
         remainingBalance.textContent = "Safe to spend: ";
     } else {
-        remainingBalance.textContent = "Safe to spend: $" + diff;
+        remainingBalance.textContent = `Safe to spend: ${diff.toLocaleString()} USD`;
     }
     return diff;
 }
@@ -295,6 +299,7 @@ currencyRates.addEventListener("change", async () => {
 
 function updateUI() {
     listCurrencies();
+    updateIncome();
     const savingsSum = renderSavings();
     const expensesSum = renderExpenses();
     const safeToSpend = calculateRemainingBalance();
