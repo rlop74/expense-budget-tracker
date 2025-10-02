@@ -28,7 +28,8 @@ updateIncomeBtn.addEventListener("click", () => {
     }
 
     localStorage.setItem("currentIncome", newIncomeValue);
-    monthlyIncome.textContent = `Monthly Income: ${parseFloat(newIncomeValue).toLocaleString()} USD`;
+    currentIncome = localStorage.getItem("currentIncome");
+    monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
     newIncome.value = "";
     updateUI();
 });
@@ -39,8 +40,9 @@ function updateIncome() {
 
 // reset monthly income
 resetIncomeBtn.addEventListener("click", () => {
-    monthlyIncome.textContent = "Monthly Income: 0 USD";
     localStorage.removeItem("currentIncome");
+    currentIncome = localStorage.getItem("currentIncome") || 0;
+    monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
     updateUI();
 })
 
