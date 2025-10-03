@@ -304,15 +304,77 @@ footer a:hover {
 }
 
 @media (max-width: 780px) {
+    body {
+        font-size: 1em;
+    }
     .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: .5fr .25fr .25fr .5fr;
         grid-template-areas:
-            "safeToSpendCard resetAllBtnCard"
-            "expenses savings"
             "monthlyIncomeCard mainChartCard"
+            "resetAllBtnCard resetAllBtnCard"
+            "safeToSpendCard safeToSpendCard"
+            "expenses savings"
             "expenseCard savingsCard"
             "expenseBreakdown savingsBreakdown";
+    }
+    #monthlyIncomeCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 680px) {
+    body {
+        font-size: 0.8em;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: .5fr .25fr .25fr .5fr;
+        grid-template-areas:
+            "monthlyIncomeCard mainChartCard"
+            "resetAllBtnCard resetAllBtnCard"
+            "safeToSpendCard safeToSpendCard"
+            "expenses savings"
+            "expenseCard savingsCard"
+            "expenseBreakdown savingsBreakdown";
+    }
+    #monthlyIncomeCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 540px) {
+    body {
+        font-size: 0.7em;
+    }
+    #menuBar {
+        gap: 25px;
+    }
+    #currencyRates {
+        font-size: x-small;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "mainChartCard"
+            "resetAllBtnCard"
+            "monthlyIncomeCard"
+            "safeToSpendCard"
+            "expenses"
+            "expenseCard"
+            "expenseBreakdown"
+            "savings"
+            "savingsCard"
+            "savingsBreakdown"
     }
 }
