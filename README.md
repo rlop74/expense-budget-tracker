@@ -41,7 +41,8 @@ Can use chart.js
 
 ### Mentor's Comments
 - [x] Improve Responsive Design on desktop, laptop and mobile screens
-- [ ] Add interaction on Contact form to save to localStorage when submitted
+- [x] Add interaction on Contact form to save to localStorage when submitted
 - [ ] Add features on the Category dropdown
     - [ ] localStorage
     - [ ] or just input
+- [ ] Store preferred currency on localStorage
