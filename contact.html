@@ -9,8 +9,11 @@
     <style>
         #flex-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             padding-top: 3%;
+            gap: 50px;
         }
         input {
             width: 40%;
@@ -21,6 +24,14 @@
             width: 50%;
             padding: 2%;
             text-align: center;
+        }
+        #inboxContainer {
+            border: 2px solid black;
+            border-radius: 5%;
+            width: 50%;
+            padding: 2%;
+            text-align: center;
+            margin-bottom: 50px;
         }
     </style>
 </head>
@@ -36,19 +47,55 @@
         <div id="contactCard">
             <label for="name">Name:</label>
             <br />
-            <input type="text" placeholder="Enter your name">
+            <input type="text" id="contactName" placeholder="Enter your name">
             <br />
             <label for="email">Email:</label>
             <br />
-            <input type="email" placeholder="Enter your email">
+            <input type="email" id="contactEmail" placeholder="Enter your email">
             <br />
             <br />
             <label for="message">Message:</label>
             <br />
             <textarea name="message" id="message" cols="70%" rows="20" placeholder="Enter your message here..."></textarea>
             <br />
-            <button>Submit</button>
+            <button id="submitBtn">Submit</button>
+        </div>
+        <div id="inboxContainer">
+            <h2>Message</h2>
+            <p id="messageValue"></p>
         </div>
     </div>
+    <script>
+        const contactName = document.getElementById("contactName");
+        const contactEmail = document.getElementById("contactEmail");
+        const message = document.getElementById("message");
+        const messageValue = document.getElementById("messageValue");
+        const submitBtn = document.getElementById("submitBtn");
+        const inbox = document.getElementById("inboxContainer");
+
+        const messageStorage = JSON.parse(localStorage.getItem("messages")) || [];
+
+        submitBtn.addEventListener("click", () => {
+            const fullMessage = {
+                name: contactName.value,
+                email: contactEmail.value,
+                message: message.value
+            };
+            messageStorage.push(fullMessage);
+            localStorage.setItem("messages", JSON.stringify(messageStorage));
+            renderInbox();
+            
+        });
+
+        function renderInbox() {
+            messageValue.innerHTML = "";
+            for (messageItem of messageStorage) {
+                const p = document.createElement("p");
+                p.innerHTML = `From: ${messageItem["name"]} (${messageItem["email"]}) <br> Message: ${messageItem["message"]}`
+                inboxContainer.appendChild(p);
+            }
+        }
+        renderInbox();
+    </script>
 </body>
 </html>
