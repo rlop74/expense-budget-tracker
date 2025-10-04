@@ -33,6 +33,15 @@
             text-align: center;
             margin-bottom: 50px;
         }
+        .messageCard {
+            border: 1px solid black;
+            border-radius: 25px;
+            padding: 2%;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .messageCard:hover {
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body>
@@ -61,7 +70,7 @@
             <button id="submitBtn">Submit</button>
         </div>
         <div id="inboxContainer">
-            <h2>Message</h2>
+            <h2>Inbox</h2>
             <p id="messageValue"></p>
         </div>
     </div>
@@ -90,9 +99,16 @@
         function renderInbox() {
             messageValue.innerHTML = "";
             for (messageItem of messageStorage) {
+                // add message with style
                 const p = document.createElement("p");
-                p.innerHTML = `From: ${messageItem["name"]} (${messageItem["email"]}) <br> Message: ${messageItem["message"]}`
+                p.innerHTML = `From: ${messageItem["name"]} (${messageItem["email"]}) <br> Message: ${messageItem["message"]}<br>`
+                p.className = "messageCard"
                 inboxContainer.appendChild(p);
+
+                // add button
+                const readBtn = document.createElement("button");
+                readBtn.textContent = "Mark as read";
+                p.appendChild(readBtn);
             }
         }
         renderInbox();
