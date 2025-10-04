@@ -69,20 +69,18 @@
             <br />
             <button id="submitBtn">Submit</button>
         </div>
+        <h2>Inbox</h2>
         <div id="inboxContainer">
-            <h2>Inbox</h2>
-            <p id="messageValue"></p>
         </div>
     </div>
     <script>
         const contactName = document.getElementById("contactName");
         const contactEmail = document.getElementById("contactEmail");
         const message = document.getElementById("message");
-        const messageValue = document.getElementById("messageValue");
         const submitBtn = document.getElementById("submitBtn");
         const inbox = document.getElementById("inboxContainer");
 
-        const messageStorage = JSON.parse(localStorage.getItem("messages")) || [];
+        let messageStorage = JSON.parse(localStorage.getItem("messages")) || [];
 
         submitBtn.addEventListener("click", () => {
             const fullMessage = {
@@ -97,8 +95,14 @@
         });
 
         function renderInbox() {
-            messageValue.innerHTML = "";
-            for (messageItem of messageStorage) {
+            // if messageStorage array is empty, update inboxContainer innerHTML and exit out of function
+            if (messageStorage.length === 0) {
+                inboxContainer.innerHTML = `No messages`;
+                return;
+            }
+            
+            inboxContainer.innerHTML = "";
+            for (const messageItem of messageStorage) {
                 // add message with style
                 const p = document.createElement("p");
                 p.innerHTML = `From: ${messageItem["name"]} (${messageItem["email"]}) <br> Message: ${messageItem["message"]}<br>`
@@ -109,6 +113,17 @@
                 const readBtn = document.createElement("button");
                 readBtn.textContent = "Mark as read";
                 p.appendChild(readBtn);
+
+                // use button to remove message
+                readBtn.addEventListener("click", () => {
+                    // remove message visually
+                    inboxContainer.removeChild(p);
+
+                    // remove message from localStorage
+                    const index = messageStorage.indexOf(messageItem);
+                    messageStorage.splice(index, 1);
+                    localStorage.setItem("messages", JSON.stringify(messageStorage));
+                })
             }
         }
         renderInbox();
