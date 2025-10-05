@@ -125,8 +125,59 @@ addExpenseBtn.addEventListener("click", () => {
     expenseName.value = "";
     expenseAmount.value = "";
     expenseCategory.value = "";
+    categoryInput.value = "";
     updateUI();
 })
+
+// add expense category 
+const categoryInput = document.getElementById("categoryInput");
+const addCategoryBtn = document.getElementById("addCategoryBtn");
+let categoryStorage = JSON.parse(localStorage.getItem("expenseCategory")) || ["Automotive", "Bills & Utilities", "Education", "Entertainment", "Food & Drinks", "Gas", "Groceries", "Health & Wellness", "Home", "Shopping"];
+
+addCategoryBtn.addEventListener("click", () => {
+    // create and add option element with contents to expenseCategory
+    const option = document.createElement("option");
+    option.setAttribute("value", categoryInput.value);
+    option.textContent = categoryInput.value;
+    expenseCategory.appendChild(option);
+
+    // save option to localStorage
+    categoryStorage.push(categoryInput.value);
+    localStorage.setItem("expenseCategory", JSON.stringify(categoryStorage));
+
+    // clear category input
+    categoryInput.value = "";
+
+    updateUI();
+})
+
+// reset expense category
+const resetCategoryBtn = document.getElementById("resetCategoryBtn");
+
+resetCategoryBtn.addEventListener("click", () => {
+    localStorage.removeItem("expenseCategory");
+    updateUI();
+})
+
+function renderExpensesList() {
+    // calling categoryStorage whenever re-rendering is useful for when resetting the category list
+    categoryStorage = JSON.parse(localStorage.getItem("expenseCategory")) || ["Automotive", "Bills & Utilities", "Education", "Entertainment", "Food & Drinks", "Gas", "Groceries", "Health & Wellness", "Home", "Shopping"];
+    // clear before re-rendering
+    expenseCategory.innerHTML = `<option value="">Please Select...</option>`;
+    // sort alphabetically before displaying
+    categoryStorage.sort();
+
+    // create element and store expense categories
+    categoryStorage.forEach(category => {
+        // create element
+        const option = document.createElement("option");
+        option.setAttribute("value", category);
+        option.textContent = category;
+
+        // display elements
+        expenseCategory.appendChild(option);
+    })
+}
 
 /*********************************
             savings
@@ -302,6 +353,7 @@ currencyRates.addEventListener("change", async () => {
 function updateUI() {
     listCurrencies();
     updateIncome();
+    renderExpensesList();
     const savingsSum = renderSavings();
     const expensesSum = renderExpenses();
     const safeToSpend = calculateRemainingBalance();

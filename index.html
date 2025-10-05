@@ -49,9 +49,12 @@ Lists/tables to display expenses.
                     <br />
                     <label for="expenseCategory"><small>Expense Category:</small></label>
                     <br />
+                    <input type="text" id="categoryInput" placeholder="Add a custom category">
+                    <button type="submit" id="addCategoryBtn">Add Expense Category</button>
+                    <button id="resetCategoryBtn">Reset Expense Category</button>
                     <select name="expenseCategory" id="expenseCategory" required>
-                        <option value="">Please Select...</option>
-                        <option value="Automotive">Automotive</option>
+                        <!-- <option value="">Please Select...</option> -->
+                        <!-- <option value="Automotive">Automotive</option>
                         <option value="Bills & Utilities">Bills & Utilities</option>
                         <option value="Education">Education</option>
                         <option value="Entertainment">Entertainment</option>
@@ -60,10 +63,10 @@ Lists/tables to display expenses.
                         <option value="Groceries">Groceries</option>
                         <option value="Health & Wellness">Health & Wellness</option>
                         <option value="Home">Home</option>
-                        <option value="Shopping">Shopping</option>
+                        <option value="Shopping">Shopping</option> -->
                     </select>
                     <br />
-                    <button type="submit" id="addExpenseBtn">Add</button>
+                    <button type="submit" id="addExpenseBtn">Add Expense</button>
             </section>
 
             <section id="savingsCard" class="card">
