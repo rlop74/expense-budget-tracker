@@ -6,34 +6,43 @@ Calculate totals dynamically.
 
 
 
-/*********************************
-        monthly net income card
-**********************************/
+/********************************************************************************************************
+                                    monthly net income card
+********************************************************************************************************/
 
 const newIncome = document.getElementById("newIncome");
 const updateIncomeBtn = document.getElementById("updateIncomeBtn");
 const resetIncomeBtn = document.getElementById("resetIncomeBtn");
 let monthlyIncome = document.getElementById("monthlyIncome");
-let currentIncome = localStorage.getItem("currentIncome") || 0; // localStorage for monthlyIncome
+let currentIncome = localStorage.getItem("currentIncome") || 0; // localStorage for monthlyIncome, if currentIncome != null, otherwise display current innerHTML
 
 // display new monthly income if currentIncome != null, otherwise display current innerHTML
-monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
+// updateIncome(); // commented as this is already in the updateUI function
 
 // update new monthly income
 updateIncomeBtn.addEventListener("click", () => {
     const newIncomeValue = newIncome.value;
+
+    // if New Monthly Net Income is empty, alert the user and exit the code
     if (!newIncomeValue) {
         alert("Please fill out required fields");
         return;
     }
 
+    // update storage with new income
     localStorage.setItem("currentIncome", newIncomeValue);
+
+    // display the new income and clear the input box
     currentIncome = localStorage.getItem("currentIncome");
-    monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
+    updateIncome();
     newIncome.value = "";
+
+    // call updateUI to refresh
     updateUI();
 });
 
+// codeline inside this function is repetitive on a couple lines
+// display new monthly income if currentIncome != null, otherwise display current innerHTML
 function updateIncome() {
     monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
 }
@@ -42,13 +51,14 @@ function updateIncome() {
 resetIncomeBtn.addEventListener("click", () => {
     localStorage.removeItem("currentIncome");
     currentIncome = localStorage.getItem("currentIncome") || 0;
-    monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
+    updateIncome();
     updateUI();
 })
 
-/*********************************
-        reset all button
-*********************************/
+/********************************************************************************************************
+                                        reset all button
+********************************************************************************************************/
+
 const resetAllBtn = document.getElementById("resetAllBtn");
 
 resetAllBtn.addEventListener("click", () => {
@@ -60,13 +70,13 @@ resetAllBtn.addEventListener("click", () => {
     expenses = [];
     savings = [];
 
-    // clear lists
+    // clear lists in the UI
     updateUI();
 })
 
-/********************************* 
-            expenses
-**********************************/
+/********************************************************************************************************
+                                            expenses
+********************************************************************************************************/
 
 const expenseName = document.getElementById("expenseName");
 const expenseAmount = document.getElementById("expenseAmount");
@@ -82,14 +92,17 @@ renderExpenses();
 // render expenses
 function renderExpenses() {
     expensesList.innerHTML = "" // clear before re-rendering
+    
     let expensesSum = 0;
+
+    // loop through the expenses storage, display them and add event to remove on click
     expenses.forEach(exp => {
         const li = document.createElement("li");
         li.innerHTML = `${exp.name} - $${exp.amount}<br/><small>${exp.date}</small><br /><small>${exp.category}</small>`;
         expensesSum += parseFloat(exp.amount);
         expensesList.appendChild(li);
 
-        // add function to remove on click
+        // add event to remove on click
         li.addEventListener("click", () => {
             expensesList.removeChild(li);
             const index = expenses.indexOf(exp);
@@ -105,6 +118,7 @@ function renderExpenses() {
 
 // add expenses
 addExpenseBtn.addEventListener("click", () => {
+    // if any of the required values in the condition below is empty, alert user and exit code
     if (!expenseName.value || !expenseAmount.value || !expenseCategory.value) {
         alert("Please fill out required fields");
         return;
@@ -120,6 +134,7 @@ addExpenseBtn.addEventListener("click", () => {
         time: today.toTimeString(),
     }
 
+    // push added expense to expenses storage/array, update storage, clear input boxes values
     expenses.push(expense);
     localStorage.setItem("expenses", JSON.stringify(expenses));
     expenseName.value = "";
@@ -179,20 +194,22 @@ function renderExpensesList() {
     })
 }
 
-/*********************************
-            savings
-**********************************/
+/********************************************************************************************************
+                                                savings
+********************************************************************************************************/
 const addSavingsBtn = document.getElementById("addSavingsBtn");
 const savingsAmount = document.getElementById("savingsAmount");
 const totalSavings = document.getElementById("totalSavings");
 const savingsList = document.getElementById("savingsList");
 
 let savings = JSON.parse(localStorage.getItem("savings")) || [];
-renderSavings();
+// renderSavings(); // commented as this is already in the updateUI function
 
 function renderSavings() {
     savingsList.innerHTML = ""; // clear before re-rendering
+
     let savingsSum = 0;
+    // loop through the savings array, display them and add event to remove on click
     savings.forEach(contribution => {
         savingsSum += parseFloat(contribution.amount);
 
@@ -214,41 +231,55 @@ function renderSavings() {
 }
 
 addSavingsBtn.addEventListener("click", () => {
+    // alert user if savings input box is empty and exit code
     if (!savingsAmount.value) {
         alert("Please fill out required fields");
         return;
     }
+
+    // create object for savings
     const today = new Date();
     let contribution = {
         amount: savingsAmount.value,
         date: today.toDateString(),
     }
+
+    // push new savings to savings array/storage and clear savings input box
     savings.push(contribution);
     localStorage.setItem("savings", JSON.stringify(savings));
     savingsAmount.value = "";
+    
+    // call update UI to update everything that's needed including the savings breakdown
     updateUI();
 })
 
 
-/*********************************
-        remaining balance
-**********************************/
+/********************************************************************************************************
+                                        remaining balance
+********************************************************************************************************/
 
 const remainingBalance = document.getElementById("remainingBalance");
 
 function calculateRemainingBalance() {
-    let expensesSum = 0;
-    let currentIncome = JSON.parse(localStorage.getItem("currentIncome")) || 0;
-    expenses.forEach(exp => {
-        expensesSum += parseFloat(exp.amount);
-    })
-    let savingsSum = 0;
-    savings.forEach(contribution => {
-        savingsSum += parseFloat(contribution.amount);
-    })
-    let diff = parseFloat(currentIncome) - (expensesSum + savingsSum);
-    diff = Math.round(diff * 100) / 100; // round off decimal place to 2
+    // let expensesSum = 0;
+    // let currentIncome = JSON.parse(localStorage.getItem("currentIncome")) || 0;
 
+    // loop through the expenses and savings array/storage to get total
+    // expenses.forEach(exp => {
+    //     expensesSum += parseFloat(exp.amount);
+    // })
+    // let savingsSum = 0;
+    // savings.forEach(contribution => {
+    //     savingsSum += parseFloat(contribution.amount);
+    // })
+    const expensesSum = renderExpenses(); // grab returned value of renderExpenses which is the sum of all expenses
+    const savingsSum = renderSavings(); // grab returned value of renderExpenses which is the sum of all savings
+
+    // calculate and round off difference to 2 decimal places
+    let diff = parseFloat(currentIncome) - (expensesSum + savingsSum);
+    diff = Math.round(diff * 100) / 100;
+
+    // prevents error if the difference is NaN
     if (Number.isNaN(diff)) {
         remainingBalance.textContent = "Safe to spend: ";
     } else {
@@ -257,12 +288,13 @@ function calculateRemainingBalance() {
     return diff;
 }
 
-calculateRemainingBalance();
+// calculateRemainingBalance(); // commented out as this is already in updateUI()
 
-/********************************* 
-            chart
-**********************************/
+/********************************************************************************************************
+                                                chart
+********************************************************************************************************/
 
+// reference: https://www.chartjs.org/docs/latest/getting-started/#create-a-chart
 const mainChart = document.getElementById('mainChart');
 let chartInstance;
 
@@ -289,9 +321,9 @@ function renderChart(expensesSum, safeToSpend, savingsSum) {
     });
 }
 
-/********************************* 
-        currency converter
-**********************************/
+/********************************************************************************************************
+                                        currency converter
+********************************************************************************************************/
 
 async function fetchCurrencies() {
     try {
@@ -309,7 +341,10 @@ let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
 
 function listCurrencies() {
     const currencies = fetchCurrencies();
+
+    // used data as currencies return involves async
     currencies.then((data) => {
+        // loop through data object (rates), grab the key and display both keys and its values
         for (currency in data) {
             const option = document.createElement("option")
             option.setAttribute("value", currency);
@@ -320,6 +355,7 @@ function listCurrencies() {
     });
 }
 
+// this event listener updates all income, expenses, savings and safeToSpend to user's desired currency
 currencyRates.addEventListener("change", async () => {
     const rates = await fetchCurrencies();
     const selectedRate = currencyRates.value;
@@ -346,9 +382,9 @@ currencyRates.addEventListener("change", async () => {
     remainingBalance.textContent = `Safe to spend: ${safeToSpend.toLocaleString()} ${selectedRate}`;
 })
 
-/********************************* 
-            update UI
-**********************************/
+/********************************************************************************************************
+                                                update UI
+********************************************************************************************************/
 
 function updateUI() {
     listCurrencies();
