@@ -71,6 +71,11 @@ body {
     min-height: 100vh;
 }
 
+body.dark {
+    background-color: #4e4b4b;
+    color: var(--background-color);
+}
+
 /********************************************
             heading/nav style 
 *********************************************/
@@ -105,6 +110,12 @@ body {
     font-weight: bold;
     font-size: medium;
     color: var(--bar-color);
+}
+
+#toggleThemeBtn {
+    position: absolute;
+    right: 0;
+    margin: 10px;
 }
 
 /********************************************

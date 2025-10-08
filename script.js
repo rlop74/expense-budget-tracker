@@ -380,6 +380,37 @@ currencyRates.addEventListener("change", async () => {
     const diff = calculateRemainingBalance();
     const safeToSpend = diff * currencyRate;
     remainingBalance.textContent = `Safe to spend: ${safeToSpend.toLocaleString()} ${selectedRate}`;
+});
+
+/********************************************************************************************************
+                                       ☀️ dark mode 🌙
+********************************************************************************************************/
+
+const toggleThemeBtn = document.getElementById("toggleThemeBtn");
+const body = document.body;
+let theme = localStorage.getItem("theme") || "light";
+
+// if-else for initial page load to update background and textContent
+if (theme === "dark") {
+    body.classList.toggle("dark");
+    toggleThemeBtn.textContent = "🌙";
+} else {
+    toggleThemeBtn.textContent = "☀️";
+}
+
+toggleThemeBtn.addEventListener("click", () => {
+    theme = localStorage.getItem("theme") // get current theme from localStorage
+    body.classList.toggle("dark"); // toggle dark class
+
+    // update textContent and localStorage for every click
+    if (theme === "light") {
+        localStorage.setItem("theme", "dark");
+        toggleThemeBtn.textContent = "🌙"
+        return;
+    }
+    localStorage.setItem("theme", "light");
+    toggleThemeBtn.textContent = "☀️";
+    // getTheme();
 })
 
 /********************************************************************************************************
@@ -390,6 +421,7 @@ function updateUI() {
     listCurrencies();
     updateIncome();
     renderExpensesList();
+    // getTheme();
     const savingsSum = renderSavings();
     const expensesSum = renderExpenses();
     const safeToSpend = calculateRemainingBalance();
