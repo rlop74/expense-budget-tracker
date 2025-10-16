@@ -67,7 +67,7 @@ updateIncomeBtn.addEventListener("click", () => {
         return;
     }
 
-    // convert the income entered to USD if selectedCurrency is not set to USD
+    // convert the income entered to USD if selectedCurrency is not set to USD before storing to localStorage
     if (selectedCurrency !== "USD") {
         newIncomeValue /= rates[selectedCurrency];
     } 
@@ -252,18 +252,24 @@ const totalSavings = document.getElementById("totalSavings");
 const savingsList = document.getElementById("savingsList");
 
 let savings = JSON.parse(localStorage.getItem("savings")) || [];
-// renderSavings(); // commented as this is already in the updateUI function
 
 function renderSavings() {
-    savingsList.innerHTML = ""; // clear before re-rendering
+    // clear list before re-rendering
+    savingsList.innerHTML = "";
 
     let savingsSum = 0;
+    let convertedContributionAmount;
+
     // loop through the savings array, display them and add event to remove on click
     savings.forEach(contribution => {
-        savingsSum += parseFloat(contribution.amount);
+        let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
+
+        // convert savings
+        convertedContributionAmount = contribution.amount * rates[selectedCurrency];
+        savingsSum += parseFloat(convertedContributionAmount);
 
         const li = document.createElement("li");
-        li.innerHTML = `$${contribution.amount}<br><small>${contribution.date}</small><br> -`;
+        li.innerHTML = `${convertedContributionAmount.toLocaleString()} ${selectedCurrency}<br><small>${contribution.date}</small><br> -`;
         savingsList.appendChild(li);
 
         li.addEventListener("click", () => {
@@ -278,11 +284,10 @@ function renderSavings() {
     // round off decimal place to 2
     savingsSum = Math.round(savingsSum * 100) / 100;
     
-    // convert and display savings
-    let selectedCurrency = localStorage.getItem("selectedCurrency");
-    let convertedSavings = savingsSum * rates[selectedCurrency];
-    totalSavings.textContent = `Total Savings: ${convertedSavings.toLocaleString()} ${selectedCurrency}`;
-    return convertedSavings;
+    // display savings
+    // let convertedSavings = savingsSum * rates[selectedCurrency];
+    totalSavings.textContent = `Total Savings: ${savingsSum.toLocaleString()} ${selectedCurrency}`;
+    return savingsSum;
 }
 
 addSavingsBtn.addEventListener("click", () => {
@@ -290,6 +295,11 @@ addSavingsBtn.addEventListener("click", () => {
     if (!savingsAmount.value) {
         alert("Please fill out required fields");
         return;
+    }
+
+    // convert the savings entered to USD if selectedCurrency is not set to USD before storing to localStorage
+    if (selectedCurrency !== "USD") {
+        savingsAmount.value /= rates[selectedCurrency];
     }
 
     // create object for savings
