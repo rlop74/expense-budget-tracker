@@ -60,17 +60,24 @@ let currentIncome = localStorage.getItem("currentIncome") || 0;
 
 // update new monthly income event listener
 updateIncomeBtn.addEventListener("click", () => {
-    const newIncomeValue = newIncomeInput.value;
+    let newIncomeValue = newIncomeInput.value;
     // if New Monthly Net Income is empty, alert the user and exit the code
     if (!newIncomeValue) {
         alert("Please fill out required fields");
         return;
-    } else {
-        // update "currentIncome" localStorage with new income
-        localStorage.setItem("currentIncome", newIncomeValue);
-        newIncomeInput.value = "";
-        updateUI();
     }
+
+    // convert the income entered to USD if selectedCurrency is not set to USD
+    if (selectedCurrency !== "USD") {
+        newIncomeValue /= rates[selectedCurrency];
+    } 
+
+    // update "currentIncome" localStorage with new income
+    localStorage.setItem("currentIncome", newIncomeValue);
+
+    // clear income input box and update the UI
+    newIncomeInput.value = "";
+    updateUI();
 });
 
 function renderIncome() {
