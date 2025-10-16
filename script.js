@@ -1,57 +1,94 @@
-/*
-Add/remove expenses.
-Store/retrieve from localStorage.
-Calculate totals dynamically.
-*/
+/********************************************************************************************************
+                                        currency converter
+********************************************************************************************************/
 
+// parse and get "rates" localStorage
+let rates = JSON.parse(localStorage.getItem("rates"));
+
+async function fetchCurrencies() {
+    try {
+        const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+        const data = await response.json();
+
+        // stringify and store data.rates in localStorage
+        localStorage.setItem("rates", JSON.stringify(data.rates));
+
+        return data.rates;
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
+}
+
+const currencyRates = document.getElementById("currencyRates");
+let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
+
+function listCurrencies() {
+    const currencies = fetchCurrencies();
+
+    // used data as currencies return involves async
+    currencies.then((data) => {
+        // loop through data object (rates), grab the key and display both keys and its values
+        for (currency in data) {
+            const option = document.createElement("option")
+            option.setAttribute("value", currency);
+            option.textContent = `${currency}: ${data[currency]}`;
+            currencyRates.appendChild(option);
+        }
+        currencyRates.value = selectedCurrency; // set value to last chosen rate
+    });
+}
+
+// event listener for when the currency rate dropdown is changed/updated
+currencyRates.addEventListener("change", () => {
+        const currencyValue = currencyRates.value;
+        localStorage.setItem("selectedCurrency", currencyValue);
+        updateUI();
+});
 
 
 /********************************************************************************************************
                                     monthly net income card
 ********************************************************************************************************/
 
-const newIncome = document.getElementById("newIncome");
+const newIncomeInput = document.getElementById("newIncomeInput");
 const updateIncomeBtn = document.getElementById("updateIncomeBtn");
 const resetIncomeBtn = document.getElementById("resetIncomeBtn");
 let monthlyIncome = document.getElementById("monthlyIncome");
-let currentIncome = localStorage.getItem("currentIncome") || 0; // localStorage for monthlyIncome, if currentIncome != null, otherwise display current innerHTML
 
-// display new monthly income if currentIncome != null, otherwise display current innerHTML
-// updateIncome(); // commented as this is already in the updateUI function
+// localStorage for monthlyIncome, store 0 if currentIncome === null, otherwise store value from "currentIncome" localStorage
+let currentIncome = localStorage.getItem("currentIncome") || 0;
 
-// update new monthly income
+// update new monthly income event listener
 updateIncomeBtn.addEventListener("click", () => {
-    const newIncomeValue = newIncome.value;
-
+    const newIncomeValue = newIncomeInput.value;
     // if New Monthly Net Income is empty, alert the user and exit the code
     if (!newIncomeValue) {
         alert("Please fill out required fields");
         return;
+    } else {
+        // update "currentIncome" localStorage with new income
+        localStorage.setItem("currentIncome", newIncomeValue);
+        newIncomeInput.value = "";
+        updateUI();
     }
-
-    // update storage with new income
-    localStorage.setItem("currentIncome", newIncomeValue);
-
-    // display the new income and clear the input box
-    currentIncome = localStorage.getItem("currentIncome");
-    updateIncome();
-    newIncome.value = "";
-
-    // call updateUI to refresh
-    updateUI();
 });
 
-// codeline inside this function is repetitive on a couple lines
-// display new monthly income if currentIncome != null, otherwise display current innerHTML
-function updateIncome() {
-    monthlyIncome.textContent = `Monthly Income: ${parseFloat(currentIncome).toLocaleString()} USD`;
-}
+function renderIncome() {
+    // get most recent income and currency rate change from localStorage
+    currentIncome = localStorage.getItem("currentIncome") || 0;
+    selectedCurrency = localStorage.getItem("selectedCurrency");
+
+    // convert currentIncome (USD) to selectedCurrency value
+    let convertedIncome = rates[selectedCurrency] * parseFloat(currentIncome);
+
+    // display income with correct currency
+    monthlyIncome.textContent = `Monthly Income: ${convertedIncome.toLocaleString()} ${selectedCurrency}`;
+};
 
 // reset monthly income
 resetIncomeBtn.addEventListener("click", () => {
     localStorage.removeItem("currentIncome");
     currentIncome = localStorage.getItem("currentIncome") || 0;
-    updateIncome();
     updateUI();
 })
 
@@ -86,7 +123,6 @@ const expensesList = document.getElementById("expensesList");
 const totalExpenses = document.getElementById("totalExpenses");
 
 let expenses = JSON.parse(localStorage.getItem("expenses")) || []; // parse the "expenses" localStorage key or return a list if parse is invalid
-renderExpenses();
 
 
 // render expenses
@@ -102,7 +138,7 @@ function renderExpenses() {
         expensesSum += parseFloat(exp.amount);
         expensesList.appendChild(li);
 
-        // add event to remove on click
+        // add event to each item to remove on click
         li.addEventListener("click", () => {
             expensesList.removeChild(li);
             const index = expenses.indexOf(exp);
@@ -111,8 +147,13 @@ function renderExpenses() {
             updateUI();
         })
     })
-    expensesSum = Math.round(expensesSum * 100) / 100; // round off decimal place to 2
-    totalExpenses.textContent = `Total Expenses: ${expensesSum} USD`;
+    // round off decimal place to 2
+    expensesSum = Math.round(expensesSum * 100) / 100;
+
+    // convert and display expenses
+    let selectedCurrency = localStorage.getItem("selectedCurrency");
+    let convertedExpenses = expensesSum * rates[selectedCurrency];
+    totalExpenses.textContent = `Total Expenses: ${convertedExpenses} ${selectedCurrency}`;
     return expensesSum;
 }
 
@@ -225,8 +266,14 @@ function renderSavings() {
             updateUI();
         })
     })
-    savingsSum = Math.round(savingsSum * 100) / 100; // round off decimal place to 2
-    totalSavings.textContent = `Total Savings: ${savingsSum.toLocaleString()} USD`;
+    
+    // round off decimal place to 2
+    savingsSum = Math.round(savingsSum * 100) / 100;
+    
+    // convert and display savings
+    let selectedCurrency = localStorage.getItem("selectedCurrency");
+    let convertedSavings = savingsSum * rates[selectedCurrency];
+    totalSavings.textContent = `Total Savings: ${convertedSavings.toLocaleString()} ${selectedCurrency}`;
     return savingsSum;
 }
 
@@ -261,17 +308,6 @@ addSavingsBtn.addEventListener("click", () => {
 const remainingBalance = document.getElementById("remainingBalance");
 
 function calculateRemainingBalance() {
-    // let expensesSum = 0;
-    // let currentIncome = JSON.parse(localStorage.getItem("currentIncome")) || 0;
-
-    // loop through the expenses and savings array/storage to get total
-    // expenses.forEach(exp => {
-    //     expensesSum += parseFloat(exp.amount);
-    // })
-    // let savingsSum = 0;
-    // savings.forEach(contribution => {
-    //     savingsSum += parseFloat(contribution.amount);
-    // })
     const expensesSum = renderExpenses(); // grab returned value of renderExpenses which is the sum of all expenses
     const savingsSum = renderSavings(); // grab returned value of renderExpenses which is the sum of all savings
 
@@ -283,12 +319,12 @@ function calculateRemainingBalance() {
     if (Number.isNaN(diff)) {
         remainingBalance.textContent = "Safe to spend: ";
     } else {
-        remainingBalance.textContent = `Safe to spend: ${diff.toLocaleString()} USD`;
+        let selectedCurrency = localStorage.getItem("selectedCurrency");
+        let convertedDiff = diff * rates[selectedCurrency];
+        remainingBalance.textContent = `Safe to spend: ${convertedDiff.toLocaleString()} ${selectedCurrency}`;
     }
     return diff;
 }
-
-// calculateRemainingBalance(); // commented out as this is already in updateUI()
 
 /********************************************************************************************************
                                                 chart
@@ -322,67 +358,6 @@ function renderChart(expensesSum, safeToSpend, savingsSum) {
 }
 
 /********************************************************************************************************
-                                        currency converter
-********************************************************************************************************/
-
-async function fetchCurrencies() {
-    try {
-        const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
-        const data = await response.json();
-        const rates = data.rates
-        return rates
-    } catch (error) {
-        console.error(`Error: ${error}`);
-    }
-}
-
-const currencyRates = document.getElementById("currencyRates");
-let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
-
-function listCurrencies() {
-    const currencies = fetchCurrencies();
-
-    // used data as currencies return involves async
-    currencies.then((data) => {
-        // loop through data object (rates), grab the key and display both keys and its values
-        for (currency in data) {
-            const option = document.createElement("option")
-            option.setAttribute("value", currency);
-            option.textContent = `${currency}: ${data[currency]}`;
-            currencyRates.appendChild(option);
-        }
-    currencyRates.value = "USD"; // reset value everytime function is called
-    });
-}
-
-// this event listener updates all income, expenses, savings and safeToSpend to user's desired currency
-currencyRates.addEventListener("change", async () => {
-    const rates = await fetchCurrencies();
-    const selectedRate = currencyRates.value;
-    const currencyRate = rates[selectedRate];
-
-    // monthly income card update
-    const currentIncome = localStorage.getItem("currentIncome") || 0;
-    const updatedIncome = currencyRate * parseFloat(currentIncome);
-    monthlyIncome.textContent = `Monthly Income: ${updatedIncome.toLocaleString()} ${selectedRate}`;
-
-    // expenses card update
-    const currentExpenses = renderExpenses();
-    const updatedExpenses = parseFloat(currentExpenses) * currencyRate;
-    totalExpenses.textContent = `Total Expenses: ${updatedExpenses.toLocaleString()} ${selectedRate}`;
-
-    // savings card update
-    const currentSavings = renderSavings();
-    const updatedSavings = parseFloat(currentSavings) * currencyRate;
-    totalSavings.textContent = `Total Savings: ${updatedSavings.toLocaleString()} ${selectedRate}`
-
-    // safeToSpend card update
-    const diff = calculateRemainingBalance();
-    const safeToSpend = diff * currencyRate;
-    remainingBalance.textContent = `Safe to spend: ${safeToSpend.toLocaleString()} ${selectedRate}`;
-});
-
-/********************************************************************************************************
                                        ☀️ dark mode 🌙
 ********************************************************************************************************/
 
@@ -410,7 +385,6 @@ toggleThemeBtn.addEventListener("click", () => {
     }
     localStorage.setItem("theme", "light");
     toggleThemeBtn.textContent = "☀️";
-    // getTheme();
 })
 
 /********************************************************************************************************
@@ -419,9 +393,8 @@ toggleThemeBtn.addEventListener("click", () => {
 
 function updateUI() {
     listCurrencies();
-    updateIncome();
+    renderIncome();
     renderExpensesList();
-    // getTheme();
     const savingsSum = renderSavings();
     const expensesSum = renderExpenses();
     const safeToSpend = calculateRemainingBalance();
