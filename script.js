@@ -83,6 +83,7 @@ function renderIncome() {
 
     // display income with correct currency
     monthlyIncome.textContent = `Monthly Income: ${convertedIncome.toLocaleString()} ${selectedCurrency}`;
+    return convertedIncome;
 };
 
 // reset monthly income
@@ -154,7 +155,7 @@ function renderExpenses() {
     let selectedCurrency = localStorage.getItem("selectedCurrency");
     let convertedExpenses = expensesSum * rates[selectedCurrency];
     totalExpenses.textContent = `Total Expenses: ${convertedExpenses.toLocaleString()} ${selectedCurrency}`;
-    return expensesSum;
+    return convertedExpenses;
 }
 
 // add expenses
@@ -274,7 +275,7 @@ function renderSavings() {
     let selectedCurrency = localStorage.getItem("selectedCurrency");
     let convertedSavings = savingsSum * rates[selectedCurrency];
     totalSavings.textContent = `Total Savings: ${convertedSavings.toLocaleString()} ${selectedCurrency}`;
-    return savingsSum;
+    return convertedSavings;
 }
 
 addSavingsBtn.addEventListener("click", () => {
@@ -308,22 +309,23 @@ addSavingsBtn.addEventListener("click", () => {
 const remainingBalance = document.getElementById("remainingBalance");
 
 function calculateRemainingBalance() {
-    const expensesSum = renderExpenses(); // grab returned value of renderExpenses which is the sum of all expenses
-    const savingsSum = renderSavings(); // grab returned value of renderExpenses which is the sum of all savings
+    const convertedExpenses = renderExpenses(); // grab returned value of renderExpenses which is the converted rate/value of all expenses
+    const convertedSavings = renderSavings(); // grab returned value of renderExpenses which is the converted rate/value of all savings
+    const convertedIncome = renderIncome(); // grab returned value of renderIncome which is the converted rate/value of income
 
     // calculate and round off difference to 2 decimal places
-    let diff = parseFloat(currentIncome) - (expensesSum + savingsSum);
-    diff = Math.round(diff * 100) / 100;
+    let safeToSpend = parseFloat(convertedIncome) - (convertedExpenses + convertedSavings);
+    safeToSpend = Math.round(safeToSpend * 100) / 100;
 
     // prevents error if the difference is NaN
-    if (Number.isNaN(diff)) {
+    if (Number.isNaN(safeToSpend)) {
         remainingBalance.textContent = "Safe to spend: ";
     } else {
         let selectedCurrency = localStorage.getItem("selectedCurrency");
-        let convertedDiff = diff * rates[selectedCurrency];
-        remainingBalance.textContent = `Safe to spend: ${convertedDiff.toLocaleString()} ${selectedCurrency}`;
+
+        remainingBalance.textContent = `Safe to spend: ${safeToSpend.toLocaleString()} ${selectedCurrency}`;
+        return safeToSpend;
     }
-    return diff;
 }
 
 /********************************************************************************************************
