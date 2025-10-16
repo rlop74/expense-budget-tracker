@@ -153,7 +153,7 @@ function renderExpenses() {
     // convert and display expenses
     let selectedCurrency = localStorage.getItem("selectedCurrency");
     let convertedExpenses = expensesSum * rates[selectedCurrency];
-    totalExpenses.textContent = `Total Expenses: ${convertedExpenses} ${selectedCurrency}`;
+    totalExpenses.textContent = `Total Expenses: ${convertedExpenses.toLocaleString()} ${selectedCurrency}`;
     return expensesSum;
 }
 
