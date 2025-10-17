@@ -150,7 +150,7 @@ function renderExpenses() {
 
         // list all expenses using the converted expense value and using the expense object's key/value
         const li = document.createElement("li");
-        li.innerHTML = `${exp.name} - $${convertedExpense.toLocaleString()}<br/><small>${exp.date}</small><br /><small>${exp.category}</small>`;
+        li.innerHTML = `${exp.name} - ${convertedExpense.toLocaleString()} ${selectedCurrency}<br/><small>${exp.date}</small><br /><small>${exp.category}</small>`;
         expensesSum += parseFloat(convertedExpense);
         expensesList.appendChild(li);
 
