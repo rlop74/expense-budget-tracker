@@ -67,7 +67,7 @@ updateIncomeBtn.addEventListener("click", () => {
         return;
     }
 
-    // convert the income entered to USD if selectedCurrency is not set to USD before storing to localStorage
+    // convert the income entered to USD first before storing to localStorage
     if (selectedCurrency !== "USD") {
         newIncomeValue /= rates[selectedCurrency];
     } 
@@ -135,15 +135,23 @@ let expenses = JSON.parse(localStorage.getItem("expenses")) || []; // parse the 
 
 // render expenses
 function renderExpenses() {
-    expensesList.innerHTML = "" // clear before re-rendering
+    // clear before re-rendering
+    expensesList.innerHTML = "";
     
     let expensesSum = 0;
+    let convertedExpense;
 
     // loop through the expenses storage, display them and add event to remove on click
     expenses.forEach(exp => {
+        let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
+        
+        // convert expenses to selectedCurrency before adding to expensesSum
+        convertedExpense = exp.amount * rates[selectedCurrency];
+
+        // list all expenses using the converted expense value and using the expense object's key/value
         const li = document.createElement("li");
-        li.innerHTML = `${exp.name} - $${exp.amount}<br/><small>${exp.date}</small><br /><small>${exp.category}</small>`;
-        expensesSum += parseFloat(exp.amount);
+        li.innerHTML = `${exp.name} - $${convertedExpense.toLocaleString()}<br/><small>${exp.date}</small><br /><small>${exp.category}</small>`;
+        expensesSum += parseFloat(convertedExpense);
         expensesList.appendChild(li);
 
         // add event to each item to remove on click
@@ -158,11 +166,9 @@ function renderExpenses() {
     // round off decimal place to 2
     expensesSum = Math.round(expensesSum * 100) / 100;
 
-    // convert and display expenses
-    let selectedCurrency = localStorage.getItem("selectedCurrency");
-    let convertedExpenses = expensesSum * rates[selectedCurrency];
-    totalExpenses.textContent = `Total Expenses: ${convertedExpenses.toLocaleString()} ${selectedCurrency}`;
-    return convertedExpenses;
+    // display and return expensesSum
+    totalExpenses.textContent = `Total Expenses: ${expensesSum.toLocaleString()} ${selectedCurrency}`;
+    return expensesSum;
 }
 
 // add expenses
@@ -171,6 +177,11 @@ addExpenseBtn.addEventListener("click", () => {
     if (!expenseName.value || !expenseAmount.value || !expenseCategory.value) {
         alert("Please fill out required fields");
         return;
+    }
+
+    // convert the income entered to USD first before storing to localStorage
+    if (selectedCurrency !== "USD") {
+        expenseAmount.value /= rates[selectedCurrency];
     }
     
     const today = new Date();
@@ -264,14 +275,16 @@ function renderSavings() {
     savings.forEach(contribution => {
         let selectedCurrency = localStorage.getItem("selectedCurrency") || "USD";
 
-        // convert savings
+        // convert savings to selectedCurrency before adding to savingsSum
         convertedContributionAmount = contribution.amount * rates[selectedCurrency];
         savingsSum += parseFloat(convertedContributionAmount);
 
+        // display all savings using the objects key/value
         const li = document.createElement("li");
         li.innerHTML = `${convertedContributionAmount.toLocaleString()} ${selectedCurrency}<br><small>${contribution.date}</small><br> -`;
         savingsList.appendChild(li);
 
+        // add function to listed savings to remove when clicked
         li.addEventListener("click", () => {
             savingsList.removeChild(li);
             const index = savings.indexOf(contribution);
@@ -284,8 +297,7 @@ function renderSavings() {
     // round off decimal place to 2
     savingsSum = Math.round(savingsSum * 100) / 100;
     
-    // display savings
-    // let convertedSavings = savingsSum * rates[selectedCurrency];
+    // display totalSavings in Savings Card
     totalSavings.textContent = `Total Savings: ${savingsSum.toLocaleString()} ${selectedCurrency}`;
     return savingsSum;
 }
@@ -297,7 +309,7 @@ addSavingsBtn.addEventListener("click", () => {
         return;
     }
 
-    // convert the savings entered to USD if selectedCurrency is not set to USD before storing to localStorage
+    // convert the savings entered to USD first before storing to localStorage
     if (selectedCurrency !== "USD") {
         savingsAmount.value /= rates[selectedCurrency];
     }
